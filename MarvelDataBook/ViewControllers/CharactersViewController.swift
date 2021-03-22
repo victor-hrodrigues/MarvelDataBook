@@ -74,12 +74,27 @@ class CharactersViewController: UICollectionViewController {
         characterCollectionView.dataSource = self
     }
     
+    private func showEmptyView(errorType: ErrorType) {
+        let rect = CGRect(x: 0, y: 0,
+                          width: self.characterCollectionView.bounds.size.width,
+                          height: self.characterCollectionView.bounds.size.height)
+        let emptyViewLabel: UILabel = UILabel(frame: rect)
+        emptyViewLabel.text = errorType == ErrorType.fetching
+            ? "Ocorreu um erro com a recuperação dos dados."
+            : "Ocorreu um erro com a serialização dos dados."
+        emptyViewLabel.textAlignment = .center
+        emptyViewLabel.textColor = UIColor.gray
+        emptyViewLabel.sizeToFit()
+        
+        self.characterCollectionView.backgroundView = emptyViewLabel
+    }
+    
     func fetchMarvelCharacters(name: String? = nil) {
         DispatchQueue.main.async {
             self.startActivityIndicator()
         }
         
-        if (!isFavoriteScreen){
+        if (!isFavoriteScreen) {
             MarvelDataBookService.fetchMarvelCharacters(offset, name: name) { result in
                 switch result {
                 case .success(let marvelCharacter):
@@ -89,9 +104,8 @@ class CharactersViewController: UICollectionViewController {
                         self.stopActivityIndicator()
                     }
                 case .failure(let error):
-                    print(error)
+                    self.showEmptyView(errorType: error)
                     return
-                //ErrorHandler.handle(error: error, inViewController: self)
                 }
             }
         } else {
