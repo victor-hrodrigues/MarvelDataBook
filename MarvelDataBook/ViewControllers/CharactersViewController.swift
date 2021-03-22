@@ -9,6 +9,8 @@ import UIKit
 
 class CharactersViewController: UICollectionViewController {
     @IBOutlet weak var characterCollectionView: UICollectionView!
+    var activityIndicator = UIActivityIndicatorView(style: .large)
+    var pullRefreshControl: UIRefreshControl!
     
     var offset = 0
     var marvelCharacters = [MarvelCharacter]()
@@ -17,21 +19,66 @@ class CharactersViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tabTitle = parent?.restorationIdentifier
-        self.title = tabTitle
-        
-        isFavoriteScreen = tabTitle == "Favorites" ? true : false
-        
+        setPullToRefresh()
+        setParameters()
         registerCollectionView()
         fetchMarvelCharacters()
     }
     
-    func registerCollectionView(){
+    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row > (marvelCharacters.count - 4) && (marvelCharacters.count > 6) && !isFavoriteScreen {
+            offset += 20
+            fetchMarvelCharacters()
+        }
+    }
+    
+    func startActivityIndicator() {
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.startAnimating()
+        view.addSubview(activityIndicator)
+        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.removeFromSuperview()
+    }
+    
+    func setPullToRefresh() {
+        pullRefreshControl = UIRefreshControl()
+        self.characterCollectionView.alwaysBounceVertical = true
+        self.pullRefreshControl.tintColor = .gray
+        self.pullRefreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        self.characterCollectionView.refreshControl = pullRefreshControl
+    }
+    
+    @objc func refreshCollectionView() {
+        self.characterCollectionView!.refreshControl?.beginRefreshing()
+        self.characterCollectionView.reloadData()
+        stopRefreshing()
+     }
+    
+    func stopRefreshing() {
+        self.characterCollectionView!.refreshControl?.endRefreshing()
+     }
+    
+    func setParameters() {
+        let tabTitle = parent?.restorationIdentifier
+        self.title = tabTitle
+        isFavoriteScreen = tabTitle == "Favorites" ? true : false
+    }
+    
+    func registerCollectionView() {
         characterCollectionView.delegate = self
         characterCollectionView.dataSource = self
     }
     
     func fetchMarvelCharacters(name: String? = nil) {
+        DispatchQueue.main.async {
+            self.startActivityIndicator()
+        }
+        
         if (!isFavoriteScreen){
             MarvelDataBookService.fetchMarvelCharacters(offset, name: name) { result in
                 switch result {
@@ -39,6 +86,7 @@ class CharactersViewController: UICollectionViewController {
                     self.marvelCharacters.append(contentsOf: marvelCharacter)
                     DispatchQueue.main.async {
                         self.characterCollectionView.reloadData()
+                        self.stopActivityIndicator()
                     }
                 case .failure(let error):
                     print(error)
@@ -48,7 +96,10 @@ class CharactersViewController: UICollectionViewController {
             }
         } else {
             //FavoriteDataBookService.fetchMarvelCharacters() {
-            
+            DispatchQueue.main.async {
+                self.characterCollectionView.reloadData()
+                self.stopActivityIndicator()
+            }
         }
     }
 }
