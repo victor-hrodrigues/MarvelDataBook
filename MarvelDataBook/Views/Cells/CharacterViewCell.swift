@@ -46,7 +46,11 @@ class CharacterViewCell: UICollectionViewCell {
     @objc func favoritePressed() {
         setFavoriteProperty(isFavorite: character!.favorite)
         setFavoriteImageView(isFavorite: character!.favorite)
-        FavoriteDataBookService.saveFavoriteCharacters(marvelCharacter: character!)
+        if (character!.favorite) {
+            FavoriteDataBookService.saveFavoriteCharacter(marvelCharacter: character!)
+        } else {
+            FavoriteDataBookService.removeFavoriteCharacter(id: character!.id)
+        }
     }
     
     func setFavoriteImageView(isFavorite: Bool) {

@@ -34,7 +34,7 @@ class FavoriteDataBookService {
         return marvelCharacters
     }
     
-    class func saveFavoriteCharacters(marvelCharacter: MarvelCharacter) {
+    class func saveFavoriteCharacter(marvelCharacter: MarvelCharacter) {
         let entity = NSEntityDescription.entity(forEntityName: "MarvelCharacterEntity", in: context)!
         let favoriteMarvelChar = NSManagedObject(entity: entity, insertInto: context)
         
@@ -47,6 +47,22 @@ class FavoriteDataBookService {
             try context.save()
         } catch let error {
             print("CoreData - erro salvando MarvelCharacter - Erro:\(error)")
+        }
+    }
+    
+    class func removeFavoriteCharacter(id: Int) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "MarvelCharacterEntity")
+        fetchRequest.predicate = NSPredicate(format: "id == %ld", id)
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let favoriteCharacter = try context.fetch(fetchRequest)
+            
+            if (favoriteCharacter.count > 0) {
+                context.delete(favoriteCharacter[0])
+            }
+        } catch let error {
+            print("CoreData - erro buscando MarvelCharacter - Erro:\(error)")
         }
     }
 }

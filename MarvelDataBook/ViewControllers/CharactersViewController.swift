@@ -55,6 +55,7 @@ class CharactersViewController: UICollectionViewController {
     
     @objc func refreshCollectionView() {
         self.characterCollectionView!.refreshControl?.beginRefreshing()
+        offset = 0
         fetchMarvelCharacters()
         stopRefreshing()
      }
