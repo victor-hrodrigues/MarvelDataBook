@@ -17,6 +17,7 @@ class CharacterViewCell: UICollectionViewCell {
             guard let character = character else { return }
             
             characterNameLabel.text = character.name
+            setFavoriteImageView(isFavorite: character.favorite)
             loadImage(thumbnail: character.thumbnail)
         }
     }
@@ -34,6 +35,29 @@ class CharacterViewCell: UICollectionViewCell {
                 self.characterImageView.contentMode = UIView.ContentMode.scaleAspectFit
                 self.characterImageView.image = image
             }
+        }
+    }
+    
+    override func awakeFromNib() {
+        let favoriteGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(favoritePressed))
+        favoriteImageView.addGestureRecognizer(favoriteGestureRecognizer)
+    }
+    
+    @objc func favoritePressed() {
+        setFavoriteProperty(isFavorite: character!.favorite)
+        setFavoriteImageView(isFavorite: character!.favorite)
+        FavoriteDataBookService.saveFavoriteCharacters(marvelCharacter: character!)
+    }
+    
+    func setFavoriteImageView(isFavorite: Bool) {
+        favoriteImageView.image = isFavorite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+    }
+    
+    func setFavoriteProperty(isFavorite: Bool) {
+        if isFavorite {
+            character?.favorite = false
+        } else {
+            character?.favorite = true
         }
     }
 }

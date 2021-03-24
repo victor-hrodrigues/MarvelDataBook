@@ -13,6 +13,7 @@
 		9211C7C12607FBC1005755DC /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9211C7C02607FBC1005755DC /* Request.swift */; };
 		927E68162608014400B8A04E /* MarvelComics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E68152608014400B8A04E /* MarvelComics.swift */; };
 		927E681B2608014A00B8A04E /* MarvelSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E681A2608014A00B8A04E /* MarvelSeries.swift */; };
+		927E683E2609581900B8A04E /* FavoriteDataBookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927E683D2609581900B8A04E /* FavoriteDataBookService.swift */; };
 		92C8372C2604D58D00731F11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C8372B2604D58D00731F11 /* AppDelegate.swift */; };
 		92C8372E2604D58D00731F11 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C8372D2604D58D00731F11 /* SceneDelegate.swift */; };
 		92C837332604D58D00731F11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92C837312604D58D00731F11 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		9279262C2605B2030076B294 /* MarvelDataBook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MarvelDataBook-Bridging-Header.h"; sourceTree = "<group>"; };
 		927E68152608014400B8A04E /* MarvelComics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelComics.swift; sourceTree = "<group>"; };
 		927E681A2608014A00B8A04E /* MarvelSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelSeries.swift; sourceTree = "<group>"; };
+		927E683D2609581900B8A04E /* FavoriteDataBookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDataBookService.swift; sourceTree = "<group>"; };
 		92C837282604D58D00731F11 /* MarvelDataBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvelDataBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92C8372B2604D58D00731F11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92C8372D2604D58D00731F11 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				927E68332609017D00B8A04E /* Base */,
 				92C8377B260576D000731F11 /* MarvelCharacter.swift */,
 				927E68152608014400B8A04E /* MarvelComics.swift */,
+				92C837342604D58D00731F11 /* MarvelDataBook.xcdatamodeld */,
 				927E681A2608014A00B8A04E /* MarvelSeries.swift */,
 			);
 			path = Models;
@@ -197,7 +200,6 @@
 			children = (
 				92C837372604D58E00731F11 /* Assets.xcassets */,
 				92C837392604D58E00731F11 /* LaunchScreen.storyboard */,
-				92C837342604D58D00731F11 /* MarvelDataBook.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -222,6 +224,7 @@
 		92E4BB272605A2B800B290CA /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				927E683D2609581900B8A04E /* FavoriteDataBookService.swift */,
 				92E4BB2E2605A39A00B290CA /* MarvelAPI.swift */,
 				92E4BB282605A2C900B290CA /* MarvelDataBookService.swift */,
 				9211C7C02607FBC1005755DC /* Request.swift */,
@@ -383,6 +386,7 @@
 				92C83767260562EA00731F11 /* CharactersViewController.swift in Sources */,
 				92C837362604D58D00731F11 /* MarvelDataBook.xcdatamodeld in Sources */,
 				9211C7B92607F491005755DC /* ErrorType.swift in Sources */,
+				927E683E2609581900B8A04E /* FavoriteDataBookService.swift in Sources */,
 				92E4BB452605AC1200B290CA /* Parseable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

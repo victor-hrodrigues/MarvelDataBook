@@ -11,7 +11,7 @@ struct MarvelCharacter: Codable {
     let id: Int
     let name: String
     let thumbnail: String
-    let favorite: Bool
+    var favorite: Bool
 }
 
 extension MarvelCharacter : Parseable {

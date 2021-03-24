@@ -55,7 +55,7 @@ class CharactersViewController: UICollectionViewController {
     
     @objc func refreshCollectionView() {
         self.characterCollectionView!.refreshControl?.beginRefreshing()
-        self.characterCollectionView.reloadData()
+        fetchMarvelCharacters()
         stopRefreshing()
      }
     
@@ -74,7 +74,7 @@ class CharactersViewController: UICollectionViewController {
         characterCollectionView.dataSource = self
     }
     
-    private func showEmptyView(errorType: ErrorType) {
+    func showEmptyView(errorType: ErrorType) {
         let rect = CGRect(x: 0, y: 0,
                           width: self.characterCollectionView.bounds.size.width,
                           height: self.characterCollectionView.bounds.size.height)
@@ -109,7 +109,7 @@ class CharactersViewController: UICollectionViewController {
                 }
             }
         } else {
-            //FavoriteDataBookService.fetchMarvelCharacters() {
+            self.marvelCharacters = FavoriteDataBookService.fetchFavoriteCharacters()
             DispatchQueue.main.async {
                 self.characterCollectionView.reloadData()
                 self.stopActivityIndicator()

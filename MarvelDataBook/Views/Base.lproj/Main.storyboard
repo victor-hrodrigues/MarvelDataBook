@@ -94,7 +94,7 @@
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="98D-Nw-d1y" userLabel="CharacterImg">
                                             <rect key="frame" x="8" y="8" width="164" height="158"/>
                                         </imageView>
-                                        <imageView autoresizesSubviews="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMg-mk-aSR" userLabel="CharacterFavoriteBtn">
+                                        <imageView autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PMg-mk-aSR" userLabel="CharacterFavoriteBtn">
                                             <rect key="frame" x="150" y="168.5" width="22" height="20"/>
                                             <color key="tintColor" systemColor="opaqueSeparatorColor"/>
                                             <imageReference key="image" image="star" catalog="system" symbolScale="medium"/>
