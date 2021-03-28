@@ -33,6 +33,7 @@ class CharacterViewCell: UICollectionViewCell {
                 
                 self.characterImageView.frame = CGRect(x: 15, y: 8, width: (self.frame.size.width - 30), height: (self.frame.size.height - 20))
                 self.characterImageView.contentMode = UIView.ContentMode.scaleAspectFit
+                self.characterImageView.image = nil
                 self.characterImageView.image = image
             }
         }
