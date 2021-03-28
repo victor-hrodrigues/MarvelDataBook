@@ -54,15 +54,18 @@ class CharactersViewController: UICollectionViewController {
     }
     
     @objc func refreshCollectionView() {
-        self.characterCollectionView!.refreshControl?.beginRefreshing()
-        offset = 0
-        fetchMarvelCharacters()
+        startRefreshing()
+        fetchMarvelCharacters(name: nil, refresh: true)
         stopRefreshing()
-     }
+    }
+    
+    func startRefreshing() {
+        self.characterCollectionView!.refreshControl?.beginRefreshing()
+    }
     
     func stopRefreshing() {
         self.characterCollectionView!.refreshControl?.endRefreshing()
-     }
+    }
     
     func setParameters() {
         let tabTitle = parent?.restorationIdentifier
@@ -90,15 +93,31 @@ class CharactersViewController: UICollectionViewController {
         self.characterCollectionView.backgroundView = emptyViewLabel
     }
     
-    func fetchMarvelCharacters(name: String? = nil) {
+    func mergeDataBooks(marvelCharacters: [MarvelCharacter], favoriteCharacters: [MarvelCharacter]) {
+        for favChar in marvelCharacters {
+            if favoriteCharacters.contains(where: {$0.id == favChar.id}) {
+                favChar.favorite = true
+            }
+        }
+    }
+    
+    func fetchMarvelCharacters(name: String? = nil, refresh: Bool = false) {
         DispatchQueue.main.async {
             self.startActivityIndicator()
         }
+        
+        if (refresh) {
+            self.marvelCharacters = [MarvelCharacter]()
+            offset = 0
+        }
+        
+        let favoriteCharacters = FavoriteDataBookService.fetchFavoriteCharacters()
         
         if (!isFavoriteScreen) {
             MarvelDataBookService.fetchMarvelCharacters(offset, name: name) { result in
                 switch result {
                 case .success(let marvelCharacter):
+                    self.mergeDataBooks(marvelCharacters: marvelCharacter, favoriteCharacters: favoriteCharacters)
                     self.marvelCharacters.append(contentsOf: marvelCharacter)
                     DispatchQueue.main.async {
                         self.characterCollectionView.reloadData()
@@ -110,7 +129,7 @@ class CharactersViewController: UICollectionViewController {
                 }
             }
         } else {
-            self.marvelCharacters = FavoriteDataBookService.fetchFavoriteCharacters()
+            self.marvelCharacters = favoriteCharacters
             DispatchQueue.main.async {
                 self.characterCollectionView.reloadData()
                 self.stopActivityIndicator()
@@ -126,8 +145,10 @@ extension CharactersViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CharacterCard", for: indexPath) as! CharacterViewCell
-        let marvelCharacter = marvelCharacters[indexPath.row]
-        cell.character = marvelCharacter
+        if (marvelCharacters.count > 0) {
+            let marvelCharacter = marvelCharacters[indexPath.row]
+            cell.character = marvelCharacter
+        }
         return cell
     }
 }
